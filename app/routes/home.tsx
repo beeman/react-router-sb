@@ -1,4 +1,4 @@
-import { deleteUsernameCookie, setUsernameCookie, testUsernameCookie } from '~/cookie.server'
+import { deleteUsernameCookie, getUsernameCookie, setUsernameCookie } from '~/cookie.server'
 import type { Route } from './+types/home'
 import { useFetcher } from 'react-router'
 
@@ -7,11 +7,9 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export async function loader({ request }: Route.LoaderArgs) {
-  const cookieHeader = request.headers.get('Cookie')
-  const cookie = await testUsernameCookie.parse(cookieHeader)
-
-  console.log(`loader => testUsernameCookie cookie: ${cookie.length ? cookie : '*NONE*'}`)
-  return { username: cookie.length ? cookie : '' }
+  const username = await getUsernameCookie(request)
+  console.log(`loader => testUsernameCookie cookie: ${username?.length ? username : '*NONE*'}`)
+  return { username: username?.length ? username : '' }
 }
 
 export async function action({ request }: Route.ActionArgs) {

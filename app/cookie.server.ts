@@ -11,6 +11,11 @@ export async function deleteUsernameCookie(request: Request) {
   })
 }
 
+export async function getUsernameCookie(request: Request) {
+  const cookieHeader = request.headers.get('Cookie')
+  return await testUsernameCookie.parse(cookieHeader)
+}
+
 export async function setUsernameCookie(request: Request, formData: FormData) {
   const username = formData.get('username')
   if (!username) {
