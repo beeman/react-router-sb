@@ -30,50 +30,36 @@ export async function action({ request }: Route.ActionArgs) {
 
 export default function Home({ loaderData }: Route.ComponentProps) {
   return (
-    <div className="p-4 flex flex-col gap-4">
-      <div className="flex items-center gap-4">
-        <SetComponent username={loaderData.username} />
-        <DeleteComponent />
-      </div>
+    <main>
+      <SetComponent username={loaderData.username} />
+      <DeleteComponent />
+
       <pre>{JSON.stringify({ loaderData }, null, 2)}</pre>
-    </div>
+    </main>
   )
 }
 
 function DeleteComponent() {
   const fetcher = useFetcher()
   return (
-    <fetcher.Form method="post">
-      <input type="hidden" name="action" value="delete-username" />
-      <button
-        className={
-          'px-4 py-2 border border-gray-300/50  disabled:bg-gray-400/50 disabled:cursor-not-allowed rounded-md'
-        }
-      >
-        Delete
-      </button>
-    </fetcher.Form>
+    <article>
+      <fetcher.Form method="post">
+        <input type="hidden" name="action" value="delete-username" />
+        <button>Delete</button>
+      </fetcher.Form>
+    </article>
   )
 }
 
 function SetComponent({ username }: { username: string }) {
   const fetcher = useFetcher()
   return (
-    <fetcher.Form method="post" className="flex items-center gap-4">
-      <input type="hidden" name="action" value="set-username" />
-      <input
-        type="text"
-        name="username"
-        defaultValue={username}
-        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
-      />
-      <button
-        className={
-          'px-4 py-2 border border-gray-300/50  disabled:bg-gray-400/50 disabled:cursor-not-allowed rounded-md'
-        }
-      >
-        Set
-      </button>
-    </fetcher.Form>
+    <article>
+      <fetcher.Form method="post">
+        <input type="hidden" name="action" value="set-username" />
+        <input type="text" name="username" defaultValue={username} />
+        <button>Set</button>
+      </fetcher.Form>
+    </article>
   )
 }
